@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReviewPilot — Stop chasing Airbnb reviews. Start earning them.</title>
+  <meta name="description" content="ReviewPilot automatically sends the perfect follow-up message after every checkout — so you collect more 5-star reviews without lifting a finger." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark: #0F6E56;
+      --text-primary: #111;
+      --text-secondary: #555;
+      --text-tertiary: #999;
+      --bg-primary: #fff;
+      --bg-secondary: #f7f7f5;
+      --border: rgba(0,0,0,0.1);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .logo { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; color: var(--text-primary); }
+    .logo span { color: var(--green); }
+    .nav-cta {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 5.5rem 2rem 4.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .eyebrow {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.3px;
+    }
+    .hero h1 {
+      font-size: 46px;
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: -1px;
+      margin-bottom: 1.25rem;
+      color: var(--text-primary);
+    }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .cta-primary {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 15px 36px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .cta-primary:hover { opacity: 0.88; }
+    .cta-sub { font-size: 13px; color: var(--text-tertiary); }
+
+    /* STATS */
+    .stats-wrap {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .stats-wrap > p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .stat { background: var(--bg-primary); padding: 1.5rem 1rem; }
+    .stat-num { font-size: 30px; font-weight: 600; color: var(--green); line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+    /* PAIN / QUOTES */
+    .pain { padding: 5rem 2rem; max-width: 680px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 2.5rem;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+    .quote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .quote-card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .quote-text { font-size: 14px; line-height: 1.65; color: var(--text-primary); margin-bottom: 12px; }
+    .quote-author { font-size: 12px; color: var(--text-tertiary); }
+
+    /* HOW IT WORKS */
+    .how {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 5rem 2rem;
+    }
+    .how-inner { max-width: 620px; margin: 0 auto; }
+    .steps { display: flex; flex-direction: column; margin-top: 0.5rem; }
+    .step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 1.25rem;
+      padding-bottom: 2.5rem;
+      position: relative;
+    }
+    .step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 25px;
+      top: 52px;
+      bottom: 0;
+      width: 0.5px;
+      background: var(--border);
+    }
+    .step-num {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--green-light);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .step-body { padding-top: 14px; }
+    .step-body h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+    .step-body p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* FEATURES */
+    .features { padding: 5rem 2rem; max-width: 680px; margin: 0 auto; }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 2rem; }
+    .feature-card {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem;
+    }
+    .feature-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--green-light);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .feature-icon i { font-size: 18px; color: var(--green-dark); }
+    .feature-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .feature-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* PRICING */
+    .pricing {
+      background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .pricing-inner { max-width: 440px; margin: 0 auto; }
+    .price-card {
+      background: var(--bg-primary);
+      border: 2px solid var(--green);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      margin-top: 2rem;
+    }
+    .price-badge {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    .price-amount { font-size: 52px; font-weight: 600; letter-spacing: -1.5px; color: var(--text-primary); line-height: 1; }
+    .price-amount span { font-size: 18px; font-weight: 400; color: var(--text-secondary); }
+    .price-trial { font-size: 14px; color: var(--green); margin: 10px 0 1.75rem; }
+    .price-features { list-style: none; text-align: left; margin-bottom: 1.75rem; }
+    .price-features li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .price-features li:last-child { border-bottom: none; }
+    .price-features i { color: var(--green); font-size: 16px; flex-shrink: 0; }
+    .price-cta {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 15px 32px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .price-cta:hover { opacity: 0.88; }
+    .price-cancel { font-size: 12px; color: var(--text-tertiary); margin-top: 10px; }
+
+    /* FAQ */
+    .faq { padding: 5rem 2rem; max-width: 640px; margin: 0 auto; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 2rem; }
+    .faq-item {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.35rem;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .faq-item i { color: var(--green); font-size: 18px; margin-top: 1px; }
+    .faq-q { font-size: 15px; font-weight: 500; margin-bottom: 5px; }
+    .faq-a { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* FINAL CTA */
+    .final-cta {
+      padding: 6rem 2rem;
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .final-cta h2 {
+      font-size: 34px;
+      font-weight: 600;
+      letter-spacing: -0.6px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .final-cta p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 2.25rem;
+      line-height: 1.65;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 1.75rem 2rem;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--text-tertiary); }
+
+    /* RESPONSIVE */
+    @media (max-width: 560px) {
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      .quote-grid { grid-template-columns: 1fr; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+      .section-title { font-size: 24px; }
+      .nav { padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="logo">Review<span>Pilot</span></div>
+    <a href="https://tally.so/r/ZjQZEo" target="_blank" style="text-decoration:none;"><button class="nav-cta">Start free trial</button></a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">For Airbnb &amp; VRBO hosts</div>
+    <h1>Stop chasing reviews.<br><em>Start earning them.</em></h1>
+    <p>ReviewPilot automatically sends the perfect follow-up message after every checkout — so you collect more 5-star reviews without lifting a finger.</p>
+    <div class="cta-group" id="main-cta">
+      <a href="https://tally.so/r/ZjQZEo" target="_blank" style="text-decoration:none;"><button class="cta-primary">Start my free 30-day trial</button></a>
+      <span class="cta-sub">No credit card required. Cancel anytime.</span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-wrap">
+    <p>Built for hosts who are tired of manually chasing reviews after every single checkout</p>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">1 in 5</div>
+        <div class="stat-label">guests leave a review without being asked</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2x</div>
+        <div class="stat-label">more reviews with a perfectly timed follow-up</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">#1</div>
+        <div class="stat-label">factor in Airbnb search ranking is reviews</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN / QUOTES -->
+  <section class="pain">
+    <div class="section-label">Sound familiar?</div>
+    <div class="section-title">Real hosts. Real frustrations.</div>
+    <div class="quote-grid">
+      <div class="quote-card">
+        <div class="quote-text">"1 out of 5 actually take the time to leave a review for me. Aggravating how I go out of my way and they can't even reply to a message."</div>
+        <div class="quote-author">— Charles, Airbnb host</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"I send a message manually, then a follow-up if they haven't reviewed within a day. It works but it takes time every single checkout."</div>
+        <div class="quote-author">— Elizabeth, multi-listing host</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"I bury the review ask at the bottom of my checkout message. I'm sure guests miss it half the time."</div>
+        <div class="quote-author">— Cindy, Airbnb host</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"Hosts with 1–3 listings face the biggest consistency challenges — juggling everything at once with no real system."</div>
+        <div class="quote-author">— Waliyat, professional co-host</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="how-inner">
+      <div class="section-label">How it works</div>
+      <div class="section-title">Set it up once.<br>Get reviews forever.</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Connect your listing</h3>
+            <p>Link your Airbnb or VRBO listing in under 2 minutes. Paste your review link and you're done.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Guest checks out</h3>
+            <p>ReviewPilot detects the checkout and sends you a one-tap notification: send the review request or skip it for this guest.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Review request goes out automatically</h3>
+            <p>A warm, natural thank-you message is sent to your guest 1 hour after checkout. If they don't respond in 48 hours, a gentle follow-up goes out.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Watch your reviews grow</h3>
+            <p>Track your review rate in your dashboard. Most hosts see a meaningful jump within their first few checkouts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="section-label">Features</div>
+    <div class="section-title">Everything you need.<br>Nothing you don't.</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+        <h3>Perfect timing</h3>
+        <p>Messages go out 1 hour after checkout — when guests are most likely to respond positively.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-thumb-up" aria-hidden="true"></i></div>
+        <h3>One-tap approve or skip</h3>
+        <p>Had a difficult guest? Skip the request with one tap before it sends. You stay in control.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-repeat" aria-hidden="true"></i></div>
+        <h3>Smart follow-up</h3>
+        <p>If a guest doesn't act within 48 hours, a gentle second message goes out automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+        <h3>Review dashboard</h3>
+        <p>See how many requests were sent, opened, and converted. Know exactly what's working.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-edit" aria-hidden="true"></i></div>
+        <h3>Editable templates</h3>
+        <p>Your message, your voice. Customize the text or use our proven default templates.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="ti ti-home" aria-hidden="true"></i></div>
+        <h3>Multi-listing support</h3>
+        <p>Manage multiple properties from one dashboard. Every listing gets consistent follow-ups.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing">
+    <div class="pricing-inner">
+      <div class="section-label">Pricing</div>
+      <div class="section-title">Simple, honest pricing.</div>
+      <div class="price-card">
+        <div class="price-badge">Most popular</div>
+        <div class="price-amount">$39<span>/month</span></div>
+        <div class="price-trial">Free for your first 30 days</div>
+        <ul class="price-features">
+          <li><i class="ti ti-check" aria-hidden="true"></i>Unlimited review requests</li>
+          <li><i class="ti ti-check" aria-hidden="true"></i>Up to 3 listings</li>
+          <li><i class="ti ti-check" aria-hidden="true"></i>Automated follow-ups</li>
+          <li><i class="ti ti-check" aria-hidden="true"></i>One-tap approve or skip</li>
+          <li><i class="ti ti-check" aria-hidden="true"></i>Review performance dashboard</li>
+          <li><i class="ti ti-check" aria-hidden="true"></i>Customizable message templates</li>
+          <li><i class="ti ti-check" aria-hidden="true"></i>Email support</li>
+        </ul>
+        <a href="https://tally.so/r/ZjQZEo" target="_blank" style="text-decoration:none;"><button class="price-cta">Start my free 30-day trial</button></a>
+        <div class="price-cancel">No credit card required. Cancel anytime.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="section-label">Common questions</div>
+    <div class="section-title">A few things hosts ask us.</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <i class="ti ti-help-circle" aria-hidden="true"></i>
+        <div>
+          <div class="faq-q">Does this violate Airbnb's rules?</div>
+          <div class="faq-a">ReviewPilot sends messages directly to your guest via SMS or email — outside Airbnb's platform entirely. There's nothing in Airbnb's terms that prevents you from following up with a guest after their stay.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <i class="ti ti-help-circle" aria-hidden="true"></i>
+        <div>
+          <div class="faq-q">What if I had a difficult guest I don't want to ask?</div>
+          <div class="faq-a">Every checkout triggers a one-tap notification to you first. Tap skip and nothing gets sent. You're always in control of who receives a message.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <i class="ti ti-help-circle" aria-hidden="true"></i>
+        <div>
+          <div class="faq-q">I already use Hospitable or a PMS — do I need this?</div>
+          <div class="faq-a">Most PMS tools bury the review request inside a general checkout message. ReviewPilot sends a dedicated, perfectly timed message focused only on the review — which converts significantly better.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <i class="ti ti-help-circle" aria-hidden="true"></i>
+        <div>
+          <div class="faq-q">How do you get my guest's contact info?</div>
+          <div class="faq-a">You simply enter the guest's email or phone number after each checkout — it takes 10 seconds. We're working on direct integrations to make this fully automatic.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Your next guest deserves a review. Make sure you get it.</h2>
+    <p>Join hosts who stopped chasing reviews manually and started getting them automatically. Your first 30 days are completely free.</p>
+    <div class="cta-group">
+      <a href="https://tally.so/r/ZjQZEo" target="_blank" style="text-decoration:none;"><button class="cta-primary">Start my free 30-day trial</button></a>
+      <span class="cta-sub">No credit card required. Takes 2 minutes to set up.</span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 ReviewPilot &middot; Built for short-term rental hosts &middot; hello@reviewpilot.com</p>
+  </footer>
+
+</body>
+</html>
